@@ -70,11 +70,32 @@ function SimpleVoiceAssistant(props: { onConnectButtonClicked: () => void }) {
             initial={{ opacity: 0, top: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0, top: "-10px" }}
-            transition={{ duration: 1, ease: [0.09, 1.04, 0.245, 1.055] }}
-            className="uppercase absolute left-1/2 -translate-x-1/2 px-4 py-2 bg-white text-black rounded-md"
-            onClick={() => props.onConnectButtonClicked()}
+            whileTap={{ 
+              scale: 0.95,
+              boxShadow: "0 0 0 rgba(0,0,0,0.2)"
+            }}
+            transition={{ 
+              duration: 1, 
+              ease: [0.09, 1.04, 0.245, 1.055],
+              scale: { duration: 0.1 }
+            }}
+            className="group relative overflow-hidden uppercase absolute left-1/2 -translate-x-1/2 px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-200 font-semibold tracking-wider text-lg"
+            onClick={(e) => {
+              // Create ripple effect
+              const button = e.currentTarget;
+              const ripple = document.createElement('span');
+              ripple.className = 'absolute inset-0 bg-white/20 rounded-lg';
+              button.appendChild(ripple);
+              
+              // Remove ripple after animation
+              setTimeout(() => {
+                ripple.remove();
+              }, 600);
+              
+              props.onConnectButtonClicked();
+            }}
           >
-            Talk To Professor AGI
+            <span className="relative z-10">Talk To Professor AGI</span>
           </motion.button>
         )}
         <div className="w-3/4 lg:w-1/2 mx-auto h-full">
